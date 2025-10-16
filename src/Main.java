@@ -1,3 +1,3 @@
 void main() {
-    IO.println("Hello, World");
+    new Simulation().start();
 }
