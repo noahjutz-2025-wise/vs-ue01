@@ -1,18 +1,25 @@
+import java.util.LinkedList;
+import java.util.Queue;
+
 public class Parkhaus {
     final static int CAPACITY = 10;
-    private int load = 0;
+    private Queue<Auto> autos = new LinkedList<>();
 
-    void inc() {
-        assert load < CAPACITY;
-        load++;
+    void park(Auto auto) {
+        assert getLoad() < CAPACITY;
+        autos.add(auto);
     }
 
-    void dec() {
-        assert load > 0;
-        load--;
+    void unpark() {
+        assert getLoad() > 0;
+        autos.remove();
+    }
+
+    Auto get() {
+        return autos.peek();
     }
 
     int getLoad() {
-        return load;
+        return autos.size();
     }
 }
