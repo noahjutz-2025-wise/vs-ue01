@@ -1,4 +1,7 @@
+import java.util.Random;
+
 public class Auto extends Thread {
+    private final Random random = new Random();
     private final Parkhaus p;
 
     public Auto(Parkhaus p) {
@@ -8,7 +11,14 @@ public class Auto extends Thread {
     @Override
     public void run() {
         while (true) {
-            // TODO sleep, park, unpark
+            try {
+                Thread.sleep(random.nextInt(10 * 1000));
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
+            }
+
+            park();
+            unpark();
         }
     }
 
