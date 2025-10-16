@@ -3,8 +3,9 @@ import java.util.Collections;
 import java.util.List;
 
 public class Simulation {
+    final static int N_AUTOS = 20;
     private final Parkhaus p = new Parkhaus();
-    private final List<Auto> autos = new ArrayList<>(Collections.nCopies(20, new Auto(p)));
+    private final List<Auto> autos = new ArrayList<>(Collections.nCopies(N_AUTOS, new Auto(p)));
 
     void start() {
         for (var auto : autos) {
