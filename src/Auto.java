@@ -4,8 +4,9 @@ public class Auto extends Thread {
     private final Random random = new Random();
     private final Parkhaus p;
 
-    public Auto(Parkhaus p) {
+    public Auto(Parkhaus p, int id) {
         this.p = p;
+        this.setName("auto-" + id);
     }
 
     @Override
@@ -23,6 +24,7 @@ public class Auto extends Thread {
     }
 
     private void park() {
+        IO.println("auto-" + getName() + ": park");
         synchronized (p) {
             while (p.getLoad() >= Parkhaus.CAPACITY) {
                 try {
@@ -36,6 +38,7 @@ public class Auto extends Thread {
     }
 
     private void unpark() {
+        IO.println("auto-" + getName() + ": unpark");
         synchronized (p) {
             p.dec();
         }

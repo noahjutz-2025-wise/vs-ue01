@@ -6,7 +6,7 @@ public class Simulation {
     final static int N_AUTOS = 20;
     private final Parkhaus p = new Parkhaus();
     private final List<Auto> autos = IntStream.range(0, N_AUTOS).mapToObj(i -> {
-                var a = new Auto(p);
+                var a = new Auto(p, i);
                 a.setDaemon(true);
                 return a;
             })
