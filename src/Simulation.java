@@ -10,7 +10,7 @@ public class Simulation {
 
     void start() {
         for (var auto : autos) {
-            new Thread(() -> {
+            var t = new Thread(() -> {
                 while (true) {
                     try {
                         Thread.sleep(random.nextInt(10 * 1000));
@@ -19,7 +19,9 @@ public class Simulation {
                     p.park(auto);
                     p.unpark(auto);
                 }
-            }).start();
+            });
+            t.setDaemon(true);
+            t.start();
         }
 
         try {
