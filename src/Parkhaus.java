@@ -6,6 +6,7 @@ public class Parkhaus {
     private Queue<Auto> autos = new LinkedList<>();
 
     synchronized void park(Auto auto) {
+        IO.println("Parkhaus: park: " + auto.id());
         while (autos.size() >= CAPACITY) {
             try {
                 wait();
@@ -17,6 +18,7 @@ public class Parkhaus {
     }
 
     synchronized void unpark(Auto auto) {
+        IO.println("Parkhaus: unpark: " + auto.id());
         assert getLoad() > 0;
         while (autos.peek() != auto) {
             try {
