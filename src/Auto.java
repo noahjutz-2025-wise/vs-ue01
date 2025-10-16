@@ -24,7 +24,7 @@ public class Auto extends Thread {
     }
 
     private void park() {
-        IO.println("auto-" + getName() + ": park");
+        IO.println("auto-" + getName() + ": park: " + p.getLoad());
         synchronized (p) {
             while (p.getLoad() >= Parkhaus.CAPACITY) {
                 try {
@@ -38,7 +38,7 @@ public class Auto extends Thread {
     }
 
     private void unpark() {
-        IO.println("auto-" + getName() + ": unpark");
+        IO.println("auto-" + getName() + ": unpark: " + p.getLoad());
         synchronized (p) {
             p.dec();
         }
