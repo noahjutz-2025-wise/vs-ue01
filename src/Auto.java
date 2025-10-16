@@ -40,6 +40,12 @@ public class Auto extends Thread {
     private void unpark() {
         IO.println("auto-" + getName() + ": unpark: " + p.getLoad());
         synchronized (p) {
+            while (p.getLoad() <= 2) {
+                try {
+                    p.wait();
+                } catch (InterruptedException e) {
+                }
+            }
             p.dec();
         }
     }
