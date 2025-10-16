@@ -12,11 +12,11 @@ public class Simulation {
         for (var auto : autos) {
             var t = new Thread(() -> {
                 while (true) {
+                    p.park(auto);
                     try {
                         Thread.sleep(random.nextInt(10 * 1000));
                     } catch (InterruptedException e) {
                     }
-                    p.park(auto);
                     p.unpark(auto);
                 }
             });
