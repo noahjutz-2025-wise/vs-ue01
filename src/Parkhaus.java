@@ -1,5 +1,5 @@
 public class Parkhaus {
-    private final int CAPACITY = 10;
+    final static int CAPACITY = 10;
     private int load = 0;
 
     void inc() {

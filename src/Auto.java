@@ -13,10 +13,21 @@ public class Auto extends Thread {
     }
 
     private void park() {
-        // TODO synchronized p.inc()
+        synchronized (p) {
+            while (p.getLoad() >= Parkhaus.CAPACITY) {
+                try {
+                    p.wait();
+                } catch (InterruptedException e) {
+                }
+            }
+
+            p.inc();
+        }
     }
 
     private void unpark() {
-        // TODO synchronized p.dec()
+        synchronized (p) {
+            p.dec();
+        }
     }
 }
