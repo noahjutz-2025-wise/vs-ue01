@@ -3,11 +3,12 @@ import java.util.Collections;
 import java.util.List;
 
 public class Simulation {
-    private final List<Auto> autos = new ArrayList<>(Collections.nCopies(20, new Auto()));
+    private final Parkhaus p = new Parkhaus();
+    private final List<Auto> autos = new ArrayList<>(Collections.nCopies(20, new Auto(p)));
 
     void start() {
         for (var auto : autos) {
-            // start auto
+            auto.start();
         }
 
         try {
