@@ -3,34 +3,30 @@ import java.util.Queue;
 
 public class Parkhaus {
   static final int CAPACITY = 10;
-  private Queue<Auto> autos = new LinkedList<>();
+  private Queue<Auto> cars = new LinkedList<>();
 
-  synchronized void park(Auto auto) {
-    IO.println("Parkhaus: park: (id=" + auto.id() + ", load=" + autos.size() + ")");
-    while (autos.size() >= CAPACITY) {
+  synchronized void park(Auto car) {
+    IO.println("Parkhaus: park: (id=" + car.id() + ", load=" + cars.size() + ")");
+    while (cars.size() >= CAPACITY) {
       try {
         wait();
       } catch (InterruptedException e) {
       }
     }
-    autos.add(auto);
+    cars.add(car);
     notifyAll();
   }
 
-  synchronized void unpark(Auto auto) {
-    IO.println("Parkhaus: unpark: (id=" + auto.id() + ", load=" + autos.size() + ")");
-    assert getLoad() > 0;
-    while (autos.peek() != auto) {
+  synchronized Auto unpark() {
+    while (cars.isEmpty()) {
       try {
         wait();
       } catch (InterruptedException e) {
       }
     }
-    autos.remove();
+    final var car = cars.remove();
+    IO.println("Parkhaus: unpark: (id=" + car.id() + ", load=" + cars.size() + ")");
     notifyAll();
-  }
-
-  int getLoad() {
-    return autos.size();
+    return car;
   }
 }

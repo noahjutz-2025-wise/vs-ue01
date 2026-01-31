@@ -1,35 +1,41 @@
-import java.util.List;
-import java.util.Random;
-import java.util.stream.IntStream;
+import java.util.ArrayList;
 
+@SuppressWarnings("BusyWait")
 public class Simulation {
-  static final int N_AUTOS = 20;
-  private final Random random = new Random();
   private final Parkhaus p = new Parkhaus();
-  private final List<Auto> autos = IntStream.range(0, N_AUTOS).mapToObj(Auto::new).toList();
 
   void start() {
-    for (var auto : autos) {
-      var t =
+    final var producer =
+        new Thread(
+            () -> {
+              while (true) {
+                final var car = new Auto(1);
+                p.park(car);
+                try {
+                  Thread.sleep(1000);
+                } catch (InterruptedException _) {
+                }
+              }
+            });
+
+    final var consumers = new ArrayList<Thread>();
+    for (int i = 0; i < 5; i++) {
+      consumers.add(
           new Thread(
               () -> {
                 while (true) {
-                  p.park(auto);
+                  final var car = p.unpark();
                   try {
-                    Thread.sleep(random.nextInt(10 * 1000));
-                  } catch (InterruptedException e) {
+                    Thread.sleep(1000);
+                  } catch (InterruptedException _) {
                   }
-                  p.unpark(auto);
                 }
-              });
-      t.setDaemon(true);
-      t.start();
+              }));
     }
 
-    try {
-      Thread.sleep(30 * 1000);
-    } catch (InterruptedException e) {
-      throw new RuntimeException(e);
+    producer.start();
+    for (final var consumer : consumers) {
+      consumer.start();
     }
   }
 }
